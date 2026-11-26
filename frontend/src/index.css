@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens. Values are HSL channels so Tailwind can apply opacity
+ * modifiers (e.g. bg-primary/10). Light is the default; `.dark` on <html>
+ * switches the whole app.
+ */
+@layer base {
+  :root {
+    --background: 220 20% 97%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 222 68% 42%;
+    --primary-foreground: 0 0% 100%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 9% 44%;
+    --accent: 220 14% 94%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 70% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 62% 32%;
+    --warning: 32 90% 40%;
+    --info: 212 78% 44%;
+    --danger: 0 70% 46%;
+
+    --border: 220 13% 89%;
+    --input: 220 13% 86%;
+    --ring: 222 68% 42%;
+
+    --sidebar: 0 0% 100%;
+    --sidebar-foreground: 222 30% 25%;
+    --sidebar-border: 220 13% 89%;
+
+    /* Faint background grid (see .bg-grid) */
+    --grid-line: 222 30% 50% / 0.07;
+
+    --radius: 0.5rem;
+    color-scheme: light;
+  }
+
+  /* Dark theme: deep navy, matching the login brand panel */
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 20% 95%;
+    --card: 222 44% 11%;
+    --card-foreground: 210 20% 95%;
+    --popover: 222 44% 12%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 217 88% 66%;
+    --primary-foreground: 222 47% 9%;
+    --muted: 222 34% 16%;
+    --muted-foreground: 218 15% 65%;
+    --accent: 222 34% 18%;
+    --accent-foreground: 210 20% 95%;
+
+    --destructive: 0 72% 52%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 52% 52%;
+    --warning: 38 90% 58%;
+    --info: 212 90% 66%;
+    --danger: 0 80% 66%;
+
+    --border: 222 30% 19%;
+    --input: 222 30% 23%;
+    --ring: 217 88% 66%;
+
+    --sidebar: 222 47% 11%;
+    --sidebar-foreground: 215 16% 78%;
+    --sidebar-border: 222 30% 17%;
+
+    --grid-line: 0 0% 100% / 0.05;
+
+    color-scheme: dark;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground;
+    font-feature-settings: "cv11", "ss01", "tnum" 0;
+  }
+
+  /* Native date pickers and selects follow the active theme */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  option {
+    @apply bg-popover text-popover-foreground;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* 48px grid of hairlines, as on the login brand panel */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--grid-line)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--grid-line)) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border)) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+  background-clip: content-box;
+}
+
+/*
+ * Markdown rendered from the AI assistant and AI reports. The project has no
+ * typography plugin, so these rules give headings, lists and tables a
+ * consistent document style in both themes.
+ */
+.markdown {
+  @apply text-sm leading-relaxed text-foreground;
+}
+
+.markdown > :first-child {
+  @apply mt-0;
+}
+
+.markdown > :last-child {
+  @apply mb-0;
+}
+
+.markdown p {
+  @apply my-2.5;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  @apply mb-2 mt-5 font-semibold tracking-tight text-foreground;
+}
+
+.markdown h1 {
+  @apply text-lg;
+}
+
+.markdown h2 {
+  @apply border-b pb-1.5 text-base;
+}
+
+.markdown h3,
+.markdown h4 {
+  @apply text-sm;
+}
+
+.markdown ul {
+  @apply my-2.5 list-disc space-y-1 pl-5;
+}
+
+.markdown ol {
+  @apply my-2.5 list-decimal space-y-1 pl-5;
+}
+
+.markdown li::marker {
+  @apply text-muted-foreground;
+}
+
+.markdown strong {
+  @apply font-semibold text-foreground;
+}
+
+.markdown a {
+  @apply font-medium text-primary underline underline-offset-2;
+}
+
+.markdown blockquote {
+  @apply my-3 border-l-2 border-primary/40 pl-3 text-muted-foreground;
+}
+
+.markdown hr {
+  @apply my-4;
+}
+
+.markdown code {
+  @apply rounded bg-muted px-1 py-0.5 font-mono text-[0.8em];
+}
+
+.markdown pre {
+  @apply my-3 overflow-x-auto rounded-md border bg-muted p-3 text-xs;
+}
+
+.markdown pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown table {
+  @apply my-3 w-full border-collapse overflow-hidden rounded-md border text-left text-xs;
+}
+
+.markdown th {
+  @apply border-b bg-muted px-3 py-2 font-semibold text-foreground;
+}
+
+.markdown td {
+  @apply border-b px-3 py-2 align-top;
+}
+
+.markdown tr:last-child td {
+  @apply border-b-0;
+}
